@@ -1,22 +1,24 @@
 #include "HistoriaClinica.h"
 #include <iostream>
 
-HistoriaClinica::HistoriaClinica(const std::string& numeroHistoria)
+using namespace std;
+
+HistoriaClinica::HistoriaClinica(const string& numeroHistoria)
     : numeroHistoria(numeroHistoria) {}
 
 HistoriaClinica::~HistoriaClinica() {}
 
-void HistoriaClinica::agregarRegistro(const std::string& registro) {
+void HistoriaClinica::agregarRegistro(const string& registro) {
     registros.push_back(registro);
 }
 
 void HistoriaClinica::mostrarHistoria() const {
-    std::cout << "Historia Clinica No: " << numeroHistoria << std::endl;
+    cout << "Historia Clinica No: " << numeroHistoria << endl;
     for (const auto& registro : registros) {
-        std::cout << "- " << registro << std::endl;
+        cout << "- " << registro << endl;
     }
 }
 
-std::string HistoriaClinica::getNumeroHistoria() const {
+string HistoriaClinica::getNumeroHistoria() const {
     return numeroHistoria;
 }

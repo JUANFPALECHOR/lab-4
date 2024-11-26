@@ -1555,6 +1555,7 @@ CMakeFiles/ProyectoHospital.dir/src/main.cpp.o: /home/juan/Documentos/lab\ 4/src
   /usr/include/c++/13/iosfwd \
   /usr/include/c++/13/iostream \
   /usr/include/c++/13/istream \
+  /usr/include/c++/13/limits \
   /usr/include/c++/13/map \
   /usr/include/c++/13/new \
   /usr/include/c++/13/ostream \
@@ -1661,6 +1662,8 @@ CMakeFiles/ProyectoHospital.dir/src/main.cpp.o: /home/juan/Documentos/lab\ 4/src
   /usr/lib/gcc/x86_64-linux-gnu/13/include/stdarg.h \
   /usr/lib/gcc/x86_64-linux-gnu/13/include/stddef.h
 
+
+/usr/include/c++/13/limits:
 
 /usr/include/c++/13/bits/stl_tree.h:
 

@@ -1,7 +1,9 @@
 #include "PacienteHospitalizado.h"
 #include <iostream>
 
-PacienteHospitalizado::PacienteHospitalizado(const std::string& nombre, const std::string& identificacion, int edad, const std::string& numeroHistoriaClinica, int numeroCama, int diasHospitalizacion)
+using namespace std;
+
+PacienteHospitalizado::PacienteHospitalizado(const string& nombre, const string& identificacion, int edad, const string& numeroHistoriaClinica, int numeroCama, int diasHospitalizacion)
     : Paciente(nombre, identificacion, edad, numeroHistoriaClinica), numeroCama(numeroCama), diasHospitalizacion(diasHospitalizacion) {}
 
 PacienteHospitalizado::~PacienteHospitalizado() {}
@@ -23,14 +25,13 @@ void PacienteHospitalizado::setDiasHospitalizacion(int dias) {
 }
 
 double PacienteHospitalizado::calcularCostoConsulta() const {
-    
     return 100.0 * diasHospitalizacion;
 }
 
 void PacienteHospitalizado::mostrarInformacion() const {
     Paciente::mostrarInformacion();
-    std::cout << "Tipo de Paciente: Hospitalizado" << std::endl;
-    std::cout << "Numero de Cama: " << numeroCama << std::endl;
-    std::cout << "Dias de Hospitalizacion: " << diasHospitalizacion << std::endl;
-    std::cout << "Costo de Consulta: $" << calcularCostoConsulta() << std::endl;
+    cout << "Tipo de Paciente: Hospitalizado" << endl;
+    cout << "Numero de Cama: " << numeroCama << endl;
+    cout << "Dias de Hospitalizacion: " << diasHospitalizacion << endl;
+    cout << "Costo de Consulta: $" << calcularCostoConsulta() << endl;
 }

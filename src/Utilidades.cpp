@@ -4,26 +4,28 @@
 #include <algorithm>
 #include <iostream>
 
-void Utilidades::ordenarPacientesPorNombre(std::vector<Paciente*>& pacientes) {
-    std::sort(pacientes.begin(), pacientes.end(), [](Paciente* a, Paciente* b) {
+using namespace std;
+
+void Utilidades::ordenarPacientesPorNombre(vector<Paciente*>& pacientes) {
+    sort(pacientes.begin(), pacientes.end(), [](Paciente* a, Paciente* b) {
         return a->getNombre() < b->getNombre();
     });
 }
 
-void Utilidades::agruparPacientesPorTipo(const std::vector<Paciente*>& pacientes) {
-    std::cout << "\nPacientes Ambulatorios:" << std::endl;
+void Utilidades::agruparPacientesPorTipo(const vector<Paciente*>& pacientes) {
+    cout << "\nPacientes Ambulatorios:" << endl;
     for (auto paciente : pacientes) {
         if (dynamic_cast<PacienteAmbulatorio*>(paciente)) {
             paciente->mostrarInformacion();
-            std::cout << "-------------------------" << std::endl;
+            cout << "-------------------------" << endl;
         }
     }
 
-    std::cout << "\nPacientes Hospitalizados:" << std::endl;
+    cout << "\nPacientes Hospitalizados:" << endl;
     for (auto paciente : pacientes) {
         if (dynamic_cast<PacienteHospitalizado*>(paciente)) {
             paciente->mostrarInformacion();
-            std::cout << "-------------------------" << std::endl;
+            cout << "-------------------------" << endl;
         }
     }
 }

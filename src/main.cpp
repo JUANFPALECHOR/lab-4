@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <map>
+#include <limits>
 #include "Medico.h"
 #include "PacienteAmbulatorio.h"
 #include "PacienteHospitalizado.h"
@@ -8,81 +9,97 @@
 #include "HistoriaClinica.h"
 #include "Utilidades.h"
 
+using std::cin;
+using std::cout;
+using std::endl;
+using std::string;
+using std::vector;
+using std::map;
+using std::getline;
+using std::numeric_limits;
+using std::streamsize;
+
 void mostrarMenu() {
-    std::cout << "\n--- Sistema de Gestion de Pacientes ---\n";
-    std::cout << "1. Registrar Paciente\n";
-    std::cout << "2. Registrar Medico\n";
-    std::cout << "3. Agendar Cita Medica\n";
-    std::cout << "4. Mostrar Pacientes Ordenados y Agrupados\n";
-    std::cout << "5. Buscar Historia Clinica\n";
-    std::cout << "6. Mostrar Cantidad de Citas Diarias por Tipo de Paciente\n";
-    std::cout << "7. Salir\n";
-    std::cout << "Seleccione una opcion: ";
+    cout << "\n--- Sistema de Gestion de Pacientes ---\n";
+    cout << "1. Registrar Paciente\n";
+    cout << "2. Registrar Medico\n";
+    cout << "3. Agendar Cita Medica\n";
+    cout << "4. Mostrar Pacientes Ordenados y Agrupados\n";
+    cout << "5. Buscar Historia Clinica\n";
+    cout << "6. Mostrar Cantidad de Citas Diarias por Tipo de Paciente\n";
+    cout << "7. Informe Medico\n";
+    cout << "8. Salir\n";
+    cout << "Seleccione una opcion: ";
 }
 
 int main() {
-    std::vector<Paciente*> pacientes;
-    std::vector<Medico*> medicos;
-    std::vector<CitaMedica*> citas;
-    std::map<std::string, HistoriaClinica*> historiasClinicas;
+    vector<Paciente*> pacientes;
+    vector<Medico*> medicos;
+    vector<CitaMedica*> citas;
+    map<string, HistoriaClinica*> historiasClinicas;
 
     int opcion;
 
     do {
         mostrarMenu();
-        std::cin >> opcion;
+        cin >> opcion;
+        cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Limpiar el buffer
 
         switch (opcion) {
             case 1: {
-                // Registro de Pasient
-                std::string nombre, identificacion, numeroHistoria;
+                // Registro de Paciente
+                string nombre, identificacion, numeroHistoria;
                 int edad, tipoPaciente;
 
-                std::cout << "Ingrese nombree: ";
-                std::cin >> nombre;
-                std::cout << "Ingrese CC: ";
-                std::cin >> identificacion;
-                std::cout << "Ingrese edad: ";
-                std::cin >> edad;
-                std::cout << "Ingrese numero de historia clinica: ";
-                std::cin >> numeroHistoria;
-                std::cout << "Tipo de Paciente (1-Ambulatorio, 2-Hospitalizado): ";
-                std::cin >> tipoPaciente;
+                cout << "Ingrese nombre: ";
+                getline(cin, nombre);
+                cout << "Ingrese identificacion: ";
+                getline(cin, identificacion);
+                cout << "Ingrese edad: ";
+                cin >> edad;
+                cin.ignore(numeric_limits<streamsize>::max(), '\n'); 
+                cout << "Ingrese numero de historia clinica: ";
+                getline(cin, numeroHistoria);
+                cout << "Tipo de Paciente (1-Ambulatorio, 2-Hospitalizado): ";
+                cin >> tipoPaciente;
+                cin.ignore(numeric_limits<streamsize>::max(), '\n'); 
 
                 if (tipoPaciente == 1) {
                     PacienteAmbulatorio* pa = new PacienteAmbulatorio(nombre, identificacion, edad, numeroHistoria);
                     pacientes.push_back(pa);
                 } else if (tipoPaciente == 2) {
                     int numeroCama, diasHospitalizacion;
-                    std::cout << "Ingrese numero de cama: ";
-                    std::cin >> numeroCama;
-                    std::cout << "Ingrese dias de hospitalizacion: ";
-                    std::cin >> diasHospitalizacion;
+                    cout << "Ingrese numero de cama: ";
+                    cin >> numeroCama;
+                    cout << "Ingrese dias de hospitalizacion: ";
+                    cin >> diasHospitalizacion;
+                    cin.ignore(numeric_limits<streamsize>::max(), '\n'); 
 
                     PacienteHospitalizado* ph = new PacienteHospitalizado(nombre, identificacion, edad, numeroHistoria, numeroCama, diasHospitalizacion);
                     pacientes.push_back(ph);
                 } else {
-                    std::cout << "Tipo de paciente invalido.\n";
+                    cout << "Tipo de paciente invalido.\n";
                 }
 
-                // aqui creo la historia clinica
-                historiasClinicas[numeroHistoria] = new HistoriaClinica(numeroHistoria);
+                
+                historiasClinicas[identificacion] = new HistoriaClinica(numeroHistoria);
 
                 break;
             }
             case 2: {
-                // Registro del doc
-                std::string nombre, identificacion, especialidad;
+                
+                string nombre, identificacion, especialidad;
                 int edad;
 
-                std::cout << "Ingrese nombre: ";
-                std::cin >> nombre;
-                std::cout << "Ingrese identificacion: ";
-                std::cin >> identificacion;
-                std::cout << "Ingrese edad: ";
-                std::cin >> edad;
-                std::cout << "Ingrese especialidad: ";
-                std::cin >> especialidad;
+                cout << "Ingrese nombre: ";
+                getline(cin, nombre);
+                cout << "Ingrese identificacion: ";
+                getline(cin, identificacion);
+                cout << "Ingrese edad: ";
+                cin >> edad;
+                cin.ignore(numeric_limits<streamsize>::max(), '\n'); 
+                cout << "Ingrese especialidad: ";
+                getline(cin, especialidad);
 
                 Medico* medico = new Medico(nombre, identificacion, edad, especialidad);
                 medicos.push_back(medico);
@@ -90,17 +107,17 @@ int main() {
                 break;
             }
             case 3: {
-                // Agendar Cita 
-                std::string idPaciente, idMedico, fecha, hora;
+                // Agendar Cita Medica
+                string idPaciente, idMedico, fecha, hora;
 
-                std::cout << "Ingrese identificacion del paciente: ";
-                std::cin >> idPaciente;
-                std::cout << "Ingrese identificacion del medico: ";
-                std::cin >> idMedico;
-                std::cout << "Ingrese fecha (DD/MM/AAAA): ";
-                std::cin >> fecha;
-                std::cout << "Ingrese hora (HH:MM): ";
-                std::cin >> hora;
+                cout << "Ingrese identificacion del paciente: ";
+                getline(cin, idPaciente);
+                cout << "Ingrese identificacion del medico: ";
+                getline(cin, idMedico);
+                cout << "Ingrese fecha (DD/MM/AAAA): ";
+                getline(cin, fecha);
+                cout << "Ingrese hora (HH:MM): ";
+                getline(cin, hora);
 
                 Paciente* paciente = nullptr;
                 Medico* medico = nullptr;
@@ -122,35 +139,64 @@ int main() {
                 if (paciente && medico) {
                     CitaMedica* cita = new CitaMedica(paciente, medico, fecha, hora);
                     citas.push_back(cita);
-                    std::cout << "Cita agendada exitosamene.\n";
+                    cout << "Cita agendada exitosamente.\n";
                 } else {
-                    std::cout << "Paciente o Medico no encontrado.\n";
+                    cout << "Paciente o Medico no encontrado.\n";
                 }
 
                 break;
             }
             case 4: {
-                // Muestro los Pacientes 
+                // Mostrar Pacientes Ordenados y Agrupados
                 Utilidades::ordenarPacientesPorNombre(pacientes);
                 Utilidades::agruparPacientesPorTipo(pacientes);
                 break;
             }
             case 5: {
-                // aqui busco la Historia clinica
-                std::string numeroHistoria;
-                std::cout << "Ingrese numero de historia clinica: ";
-                std::cin >> numeroHistoria;
+               
+                string identificacion, numeroHistoria;
+                cout << "Ingrese identificacion del paciente: ";
+                getline(cin, identificacion);
+                cout << "Ingrese numero de historia clinica: ";
+                getline(cin, numeroHistoria);
 
-                if (historiasClinicas.find(numeroHistoria) != historiasClinicas.end()) {
-                    historiasClinicas[numeroHistoria]->mostrarHistoria();
+                
+                Paciente* paciente = nullptr;
+                for (auto p : pacientes) {
+                    if (p->getIdentificacion() == identificacion && p->getNumeroHistoriaClinica() == numeroHistoria) {
+                        paciente = p;
+                        break;
+                    }
+                }
+
+                if (paciente) {
+                    
+                    cout << "\n--- Información del Paciente ---\n";
+                    paciente->mostrarInformacion();
+
+                    
+                    if (dynamic_cast<PacienteAmbulatorio*>(paciente)) {
+                        cout << "Tipo de Paciente: Ambulatorio\n";
+                    } else if (dynamic_cast<PacienteHospitalizado*>(paciente)) {
+                        cout << "Tipo de Paciente: Hospitalizado\n";
+                    }
+
+                   
+                    auto it = historiasClinicas.find(identificacion);
+                    if (it != historiasClinicas.end()) {
+                        cout << "\n--- Historia Clínica ---\n";
+                        it->second->mostrarHistoria();
+                    } else {
+                        cout << "Historia clínica no encontrada.\n";
+                    }
                 } else {
-                    std::cout << "Historia clinica no encontrada.\n";
+                    cout << "No se encontró un paciente con esa identificación y número de historia clínica.\n";
                 }
 
                 break;
             }
             case 6: {
-                // Mostrar Cantidad de Citas Diarias por Tipo de Paciente
+                
                 int contadorAmbulatorio = 0;
                 int contadorHospitalizado = 0;
 
@@ -162,23 +208,47 @@ int main() {
                     }
                 }
 
-                std::cout << "Cantidad de citas para pacientes ambulatorios: " << contadorAmbulatorio << std::endl;
-                std::cout << "Cantidad de citas para pacientes hospitalizados: " << contadorHospitalizado << std::endl;
+                cout << "Cantidad de citas para pacientes ambulatorios: " << contadorAmbulatorio << endl;
+                cout << "Cantidad de citas para pacientes hospitalizados: " << contadorHospitalizado << endl;
 
                 break;
             }
             case 7: {
-                std::cout << "Saliendo del sistema...\n";
+                // Informe Médico
+                string identificacion;
+                cout << "Ingrese identificacion del paciente: ";
+                getline(cin, identificacion);
+
+                // ti
+                Paciente* paciente = nullptr;
+                for (auto p : pacientes) {
+                    if (p->getIdentificacion() == identificacion) {
+                        paciente = p;
+                        break;
+                    }
+                }
+
+                if (paciente) {
+                    cout << "\n--- Información del Paciente ---\n";
+                    paciente->mostrarInformacion();
+                } else {
+                    cout << "Paciente no encontrado.\n";
+                }
+
+                break;
+            }
+            case 8: {
+                cout << "Saliendo del sistema...\n";
                 break;
             }
             default:
-                std::cout << "Opcion invalida. Intente de nuevo.\n";
+                cout << "Opcion invalida. Intente de nuevo.\n";
                 break;
         }
 
-    } while (opcion != 7);
+    } while (opcion != 8);
 
-    // Libero la memoria
+   
     for (auto p : pacientes) delete p;
     for (auto m : medicos) delete m;
     for (auto c : citas) delete c;
